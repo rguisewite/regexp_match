@@ -83,7 +83,14 @@ void mv_regexp_match_lowlevel( char **expression, int expression_length, char **
 		return -1;
 	}
 
-	// error = mv_regexp_execute( &regexp, *source, source_length, start
+	while ( !( error = mv_regexp_execute( &regexp, *source, source_length, start ) ) )
+	{
+		/* Add the match to the match list and continue on */
+	}
+
+	if ( error == REGEXP_ERROR_NOMATCH )				;
+	else if ( error == REGEXP_ERROR_INVALID_REGEXP )	;
+
 	return matchlist_count;
 }
 
