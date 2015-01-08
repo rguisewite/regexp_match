@@ -19,13 +19,6 @@ MV_EL_FunctionParameter regexp_match_parameters_var[] = {
 	{ "match",		5,		EPF_REFERENCE },
 };
 
-struct match_item
-{
-	int start_index;
-	int end_index;
-	char *match;
-}
-
 void mv_regexp_match( mvProgram prog, mvVariableHash parameters, mvVariable returnvalue, void ** data )
 {
 	int start, expression_length, source_length, flags_length, match_length;
@@ -54,7 +47,7 @@ void mv_regexp_match_var( mvProgram prog, mvVariableHash parameters, mvVariable 
 	mvVariable_SetValue_Integer( returnvalue, mv_regexp_match_lowlevel( &expression, expression_length, &source, source_length, &flags, flags_length, start, &matchlist ) );
 }
 
-void mv_regexp_match_lowlevel( char **expression, int expression_length, char **source, int source_length, char **flags, int flags_length, int start, struct match_item *matchlist )
+int mv_regexp_match_lowlevel( char **expression, int expression_length, char **source, int source_length, char **flags, int flags_length, int start, struct match_item *matchlist )
 {
 	regexp_mv regexp;
 	int error, options, flag_index, matchlist_count;
@@ -68,9 +61,9 @@ void mv_regexp_match_lowlevel( char **expression, int expression_length, char **
 		{
 			switch ( flags[ flag_index ] )
 			{
-				case 'g':	options |= REGEXP_FLAG_G;		break;
-				case 'i':	options |= REGEXP_FLAG_I;		break;
-				case 'm':	options |= REGEXP_FLAG_M;		break;
+				case 'g':	options |= REGEXP_MATCH_FLAG_G;		break;
+				case 'i':	options |= REGEXP_MATCH_FLAG_I;		break;
+				case 'm':	options |= REGEXP_MATCH_FLAG_M;		break;
 			}
 		}
 	}
